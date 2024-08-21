@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
- */
 package com.edu.espol.calculadoracm;
 
-import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,28 +7,23 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- *
- * @author hailiejimenez
- */
 public class OperationsTest {
-    private static List<String> formulas;
     public OperationsTest() {
     }
-    
+
     @BeforeAll
     public static void setUpClass() {
-        
+
     }
-    
+
     @AfterAll
     public static void tearDownClass() {
     }
-    
+
     @BeforeEach
     public void setUp() {
     }
-    
+
     @AfterEach
     public void tearDown() {
     }
@@ -47,47 +37,43 @@ public class OperationsTest {
         // Verifica que la fórmula comience con un número y tenga la estructura correcta
         assertTrue(formula.matches("^\\d+(\\+|-|\\*|/)\\d+((\\+|-|\\*|/)\\d+)*$"));
     }
-    
-     @Test //FAILED
+
+    @Test
     public void testSolveAddition() {
-        String formula;
-        String result;
-        //works multiple operations
-        formula = "2+3";
-        result = Operations.Solve(formula);
+        String formula = "2+3";
+        String result = Operations.Solve(formula);
         assertEquals("2+3=5", result);
-        
     }
-    
-    @Test //FAILED
+
+    @Test
     public void testSolveMultipleAdditions() {
         String formula = "2+3+4";
         String result = Operations.Solve(formula);
         assertEquals("2+3+4=9", result);
     }
 
-    @Test //PASSED
+    @Test
     public void testSolveSimpleSubtraction() {
         String formula = "10-5";
         String result = Operations.Solve(formula);
         assertEquals("10-5=5", result);
     }
 
-    @Test //FAILED
+    @Test
     public void testSolveMultipleSubtractions() {
         String formula = "10-3-2";
         String result = Operations.Solve(formula);
         assertEquals("10-3-2=5", result);
     }
 
-    @Test //FAILED
+    @Test
     public void testSolveAdditionAndSubtraction() {
         String formula = "10+5-3";
         String result = Operations.Solve(formula);
         assertEquals("10+5-3=12", result);
     }
 
-    @Test //FAILED
+    @Test
     public void testSolveSubtractionAndAddition() {
         String formula = "10-5+3";
         String result = Operations.Solve(formula);
@@ -181,5 +167,58 @@ public class OperationsTest {
         String result = Operations.Solve(formula);
         assertEquals("-5+10-3-7+2=-3", result);
     }
-    
+
+    // Additional Cases for Multiplication and Division
+    @Test
+    public void testSolveSimpleMultiplication() {
+        String formula = "3*4";
+        String result = Operations.Solve(formula);
+        assertEquals("3*4=12", result);
+    }
+
+    @Test
+    public void testSolveMultipleMultiplications() {
+        String formula = "2*3*4";
+        String result = Operations.Solve(formula);
+        assertEquals("2*3*4=24", result);
+    }
+
+    @Test
+    public void testSolveSimpleDivision() {
+        String formula = "8/2";
+        String result = Operations.Solve(formula);
+        assertEquals("8/2=4", result);
+    }
+
+    @Test
+    public void testSolveMultipleDivisions() {
+        String formula = "24/2/2";
+        String result = Operations.Solve(formula);
+        assertEquals("24/2/2=6", result);
+    }
+
+    @Test
+    public void testSolveCombinedOperations() {
+        String formula = "10+2*6/3-4";
+        String result = Operations.Solve(formula);
+        assertEquals("10+2*6/3-4=10", result);
+    }
+
+    @Test
+    public void testSolveComplexCombinedOperations() {
+        String formula = "10+2*6-3/3+5*2";
+        String result = Operations.Solve(formula);
+        assertEquals("10+2*6-3/3+5*2=27", result);
+    }
+
+    @Test
+    public void testSolveDivisionByZero() {
+        String formula = "10/0";
+        try {
+            Operations.Solve(formula);
+            fail("Expected ArithmeticException");
+        } catch (ArithmeticException e) {
+            assertTrue(true);
+        }
+    }
 }
