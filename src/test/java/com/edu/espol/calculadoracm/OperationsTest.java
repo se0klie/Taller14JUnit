@@ -221,4 +221,108 @@ public class OperationsTest {
             assertTrue(true);
         }
     }
+    
+    @Test
+    public void testSolveEmptyFormula() {
+        String formula = "";
+        try {
+            Operations.Solve(formula);
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testSolveSingleNumber() {
+        String formula = "42";
+        String result = Operations.Solve(formula);
+        assertEquals("42=42", result);
+    }
+
+    @Test
+    public void testSolveSingleOperation() {
+        String formula = "7*1";
+        String result = Operations.Solve(formula);
+        assertEquals("7*1=7", result);
+    }
+
+    @Test
+    public void testSolveOperatorsOnly() {
+        String formula = "+*-/";
+        try {
+            Operations.Solve(formula);
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testSolveOperatorWithNoOperands() {
+        String formula = "3+";
+        try {
+            Operations.Solve(formula);
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testSolveMultipleOperatorsAtStart() {
+        String formula = "*3+4";
+        try {
+            Operations.Solve(formula);
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testSolveOperatorsAtEnd() {
+        String formula = "3+4*";
+        try {
+            Operations.Solve(formula);
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testSolveFloatingPointDivision() {
+        String formula = "7/2";
+        String result = Operations.Solve(formula);
+        assertEquals("7/2=3", result); // Note: Integer division truncates the decimal part
+    }
+
+    @Test
+    public void testSolveDivisionWithDecimalResult() {
+        String formula = "10/4";
+        String result = Operations.Solve(formula);
+        assertEquals("10/4=2", result); // Note: Integer division truncates the decimal part
+    }
+
+    @Test
+    public void testSolveNegativeResultWithMultiplication() {
+        String formula = "-4*2";
+        String result = Operations.Solve(formula);
+        assertEquals("-4*2=-8", result);
+    }
+
+    @Test
+    public void testSolveNegativeResultWithDivision() {
+        String formula = "-8/2";
+        String result = Operations.Solve(formula);
+        assertEquals("-8/2=-4", result);
+    }
+
+    @Test
+    public void testSolveNegativeNumbersWithMixedOperations() {
+        String formula = "-5+2*3-4";
+        String result = Operations.Solve(formula);
+        assertEquals("-5+2*3-4=1", result);
+    }
 }
