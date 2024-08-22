@@ -325,4 +325,47 @@ public class OperationsTest {
         String result = Operations.Solve(formula);
         assertEquals("-5+2*3-4=1", result);
     }
+    @Test
+    public void testSolveInvalidFormat() {
+        String formula = "++5";
+        try {
+            Operations.Solve(formula);
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+    }
+    @Test
+    public void testSolveWithIntegerMaxValue() {
+        String formula = Integer.MAX_VALUE + "+1";
+        try {
+            Operations.Solve(formula);
+            fail("Expected ArithmeticException or overflow behavior");
+        } catch (ArithmeticException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testSolveWithIntegerMinValue() {
+        String formula = Integer.MIN_VALUE + "-1";
+        try {
+            Operations.Solve(formula);
+            fail("Expected ArithmeticException or overflow behavior");
+        } catch (ArithmeticException e) {
+            assertTrue(true);
+        }
+    }
+    @Test
+    public void testSolveInvalidCharacterInFormula() {
+        String formula = "5a+3";
+        try {
+            Operations.Solve(formula);
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+    }
+
+
 }
